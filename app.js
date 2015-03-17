@@ -24,6 +24,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Connect to the mongo db
 
+app.use('/', function(req, res, next) {
+    
+});
+
 app.use('/', routes);
 app.use('/user', user);
 

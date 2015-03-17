@@ -4,7 +4,7 @@ var passwordHash = require('password-hash');
 var userSchema = new mongoose.Schema({
     email: { type: String, default: '' },
     hashedPassword: { type: String, default: '' },
-    isSuperUser: { type: String, default: 0 },
+    isSuperUser: { type: Number, default: 0 },
     folderList: [{ type:Schema.ObjectId, ref: 'Folder' }],
 });
 
@@ -18,9 +18,7 @@ userSchema
         return this.pwd; 
     });
 
-userSchema.path('email').validate(function (email) {
-    return email.length;
-});
+userSchema.path('email').required(true, '邮箱不能为空哦');
 
 userSchema.path('email').validate(function (email, fn) {
     var User = mongoose.model('User');
@@ -45,7 +43,20 @@ userSchema.pre('save', function(next) {
 userSchema.methods =  {
     authenticate: function(plainText) {
         return passwordHash.verify(plainText, self.hashedPassword);
-    }
+    },
+};
+
+userSchema.statics = {
+    hasSetSuperUser: function(cb) {
+        this.findOne({ 'isSuperUser': 1 })
+            .select('email')
+            .exec(function(err, user) {
+                if (err) 
+                    return cb(err, null);
+                if (!user) return cb(null, false);
+                return cb(null, true);
+            });
+    },
 };
 
 mongoose.model('User', userSchema);
