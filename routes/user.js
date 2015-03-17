@@ -11,6 +11,9 @@ router.post('/login', function(req, res, next) {
     if (req.session.user_id) {
         user_model.is_regesterd_user(req.session.user_id, function(success) {
             if (Boolean(success)) {
+                console
+            }
+            else {
 
             }
         }); 

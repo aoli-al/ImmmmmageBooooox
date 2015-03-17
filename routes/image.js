@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var User = require('../models/user_model.js')
 
 router.param('user_id', function(req, res, next, id) {
   // sample user, would actually fetch from DB, etc...
