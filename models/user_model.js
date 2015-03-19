@@ -8,15 +8,16 @@ var userSchema = new mongoose.Schema({
     folderList: [{ type:Schema.ObjectId, ref: 'Folder' }],
 });
 
+
 userSchema
-    .virtual('password')
-    .set(function(password) {
-        this.pwd = password;
-        this.hashedPassword = passwordHash.generate(password);
-    }) 
-    .get(function() {
-        return this.pwd; 
-    });
+.virtual('password')
+.set(function(password) {
+    this.pwd = password;
+    this.hashedPassword = passwordHash.generate(password);
+}) 
+.get(function() {
+    return this.pwd; 
+});
 
 userSchema.path('email').required(true, '邮箱不能为空哦');
 
@@ -47,16 +48,24 @@ userSchema.methods =  {
 };
 
 userSchema.statics = {
-    hasSetSuperUser: function(cb) {
+    hasSetSuperUser: function(callback) {
         this.findOne({ 'isSuperUser': 1 })
             .select('email')
             .exec(function(err, user) {
-                if (err) 
-                    return cb(err, null);
-                if (!user) return cb(null, false);
-                return cb(null, true);
+                if (err) return callback(err, null);
+                if (!user) return callback(null, false);
+                return callback(null, true);
             });
     },
+    hasSetUser: function(email, callback) {
+        this.findOne({'email': email})
+            .select('email')
+            .exec(function(err, user) {
+                if (err) return callback(err, null);
+                if (!user) callback(null, false);
+                return callback(null, true);
+            });
+    }
 };
 
 mongoose.model('User', userSchema);
