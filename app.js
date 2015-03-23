@@ -4,9 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var captcha = require('./controllers/captcha.js');
+var session = require('express-session');
 
 var routes = require('./routes/index');
-var user = require('./routes/user');
+var users = require('./routes/users');
 
 var app = express();
 
@@ -20,17 +22,25 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.session({secret: "jklas;dfhiobnjkalwsfghi"}));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({ secret: 'Aafsknlaw1240-,', 
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60000}}));
 
-//Connect to the mongo db
 
-app.use('/', function(req, res, next) {
-    
+
+app.get('/captcha.jpg', captcha.generate);
+
+app.get('/', function(req, res){
+    res.type('html');
+    res.end('<img src="/captcha.jpg"/><form action="/login" method="post"><input type="text" name="digits"/></form>'); // captcha render 
 });
 
-app.use('/', routes);
-app.use('/user', user);
+app.post('/login', captcha.check);
+
+// app.use('/', routes);
+app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -63,5 +73,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
+
+app.listen(8000);
 
 module.exports = app;
