@@ -7,7 +7,7 @@
 var captchagen = require('captchagen');
 
 exports.generate = function (req, res, next) {
-    var captcha = captchagen.create({ width:1000, height:1000 }); 
+    var captcha = captchagen.create({ type: 'jpeg', font: 'Helvetica' }); 
     var captchaCode = captcha.text();
     console.log(captchaCode);
     console.log(captcha.height());
