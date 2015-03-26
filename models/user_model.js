@@ -7,11 +7,14 @@
 var mongoose = require('mongoose');
 var passwordHash = require('password-hash');
 
+var Schema = mongoose.Schema;
+
 var userSchema = new mongoose.Schema({
+    id: Schema.ObjectId,
     email: { type: String, default: '' },
     hashedPassword: { type: String, default: '' },
     isSuperUser: { type: Number, default: 0 },
-    folderList: [{ type:Schema.ObjectId, ref: 'Folder' }],
+    folderList: [{ type:Schema.ObjectId, ref: 'FolderModel' }],
 });
 
 
@@ -40,17 +43,36 @@ userSchema.pre('save', function(next) {
     if (!this.isNew) return next();
 
     if (!(this.password && this.password.length)) {
-        next(new Error('未填写密码'))
+        next(new Error('未填写密码'));
     } 
     else {
         next();
     }
 });
 
+
 userSchema.methods =  {
     authenticate: function(plainText) {
         return passwordHash.verify(plainText, self.hashedPassword);
     },
+
+    addFolder: function(folder, callback) {
+        this.populate({
+            path: 'folderList',
+            match: { id: folder.id },
+            select: 'name' 
+        }) 
+        .exec(function(err, folders) {
+            if (err) return callbcak(err); 
+            if (!folders || (folders.size() === 0)) {
+                this.push(folder);
+                this.save(callback);
+            }
+            else {
+                callback(new Error("文件夹已存在")); 
+            }
+        })
+    }
 };
 
 userSchema.statics = {
