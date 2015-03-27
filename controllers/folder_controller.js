@@ -8,20 +8,49 @@ var mongoose = require('mongoose');
 var Folder = mongoose.model('FolderModel');
 var User = mongoose.model('UserModel');
 
-exports.get_user_list = function (req, res) {
+exports.getUserList = function (req, res) {
     if (typeof req.body.id !== 'string') {
-        // handle error
+        return res.json({ 
+            code: 1,
+            message: "字段不得为空" 
+        });
     }
     Folder
         .findById(req.body.id, 'userList')
         .exec(function (err, lists) {
-            // handle err
+            if (err) {
+                console.log(err.message);
+                return res.json({
+                    code:100,
+                    mssage: "未知错误", 
+                });
+            }
             res.json({code: 0,
                 message: "",
                 data: lists});
         });
 }
 
-exports.get_folder_list = function (req, res) {
-    if (typeof req.body.id !== 'string')
+exports.addUser = function (req. res) {
+    if (typeof req.body.fid !== 'string') {
+        return res.json({ 
+            code: 1,
+            message: "字段不得为空" 
+        });
+    }
+    if (typeof req.body.uid !== 'string') {
+        return res.json({
+            code: 1,
+            message: "字段不得为空"
+        });
+    }
+    Folder
+        .findById(req.body.fid)
+        .exec(function (err, folder) {
+            folder.addUser(req.body.uid, function (err) {
+                if (err) {
+                }
+                
+            });
+        });
 }

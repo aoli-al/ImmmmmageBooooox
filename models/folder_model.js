@@ -18,10 +18,10 @@ var folderSchema = new mongoose.Schema({
 
 folderSchema.methods = {
 
-    addUser: function (user, callback) {
+    addUser: function (uid, callback) {
         this.populate({
                 path: 'userList',
-                match: { id: user.id },
+                match: { id: uid },
                 select: 'email'
             })
             .exec(function(err, users) {

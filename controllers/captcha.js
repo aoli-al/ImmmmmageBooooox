@@ -26,6 +26,6 @@ exports.check = function (req, res, next) {
         next(); 
     }
     else {
-        res.json({ code: 1, message: "验证码错误" }); 
+        res.json({ code: 2, message: "验证码错误" }); 
     }
 }
