@@ -63,7 +63,7 @@ userSchema.methods =  {
             select: 'name' 
         }) 
         .exec(function(err, folders) {
-            if (err) return callbcak(err); 
+            if (err) return callback(err); 
             if (!folders || (folders.size() === 0)) {
                 this.push(folder);
                 this.save(callback);
