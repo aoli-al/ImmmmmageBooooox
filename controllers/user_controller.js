@@ -148,13 +148,13 @@ exports.register = function(req, res){ //Register Function
 }// end of user register function
 
 exports.addFolder = function(req, res){ // Add Folder Function
-    if (req.body.folderList.constructor === Array) {
+    if (req.body.folderList.constructor !== Array) {
         return req.json({
             code: 1,
             message: "List is empty"
         }); 
     }
-    User.findOne({ id: req.session.id }, function (err, user) {
+    User.findOne({ id: req.body.uid }, function (err, user) {
         if (err) {
             return res.json({ 
                 code: 100,

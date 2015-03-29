@@ -31,26 +31,4 @@ exports.getUserList = function (req, res) {
         });
 }
 
-exports.addUser = function (req. res) {
-    if (typeof req.body.fid !== 'string') {
-        return res.json({ 
-            code: 1,
-            message: "字段不得为空" 
-        });
-    }
-    if (typeof req.body.uid !== 'string') {
-        return res.json({
-            code: 1,
-            message: "字段不得为空"
-        });
-    }
-    Folder
-        .findById(req.body.fid)
-        .exec(function (err, folder) {
-            folder.addUser(req.body.uid, function (err) {
-                if (err) {
-                }
-                
-            });
-        });
-}
+// TODO Add addUser function

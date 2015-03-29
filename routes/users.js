@@ -5,7 +5,7 @@ var captcha = require('../controllers/captcha.js');
 
 router.post('/login', captcha.check, userController.login);
 router.post('/register', captcha.check, userController.register);
-router.post('/add_folder', userController.sessionVerify, userController.addFolder);
+router.post('/add_folder', userController.superUserVerify, userController.addFolder);
 router.post('/change_password', userController.sessionVerify, userController.changePassword);
 router.get('/folder_list', userController.sessionVerify, userController.getFolderList);
 

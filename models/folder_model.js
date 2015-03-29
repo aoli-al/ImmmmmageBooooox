@@ -33,13 +33,13 @@ folderSchema.methods = {
                 else {
                     callback(new Error("用户已存在")); 
                 }
-            })
+            });
     },
 
-    addImage: function (image, callback) {
-        this.populcate({
+    addImage: function (imageId, callback) {
+        this.populate({
             path: 'imageList',
-            match: { id: image.id },
+            match: { id: imageId },
             select: 'id'
         })
         .exec(function (err, images) {
@@ -51,16 +51,23 @@ folderSchema.methods = {
             else {
                 callback(new Error("图片已存在")); 
             }
+        });
+    },
+
+    hasPrivicy: function (userId, callback) {
+        this.populate({
+            path: 'userList',
+            match: { id: userId },
+            select: 'id'
         })
+        .exec(function (err, users) {
+            if (err) return callback(false);
+            if (!users || (users.size() === 0)) {
+               return callback(false);
+            }
+            return callback(true);
+        });
     }
-}
-
-folderSchema.statics = {
-
-  userList: function (_id, cb) {
-    var query = this.where({ id: _id });
-    query.find
-  }
 }
 
 mongoose.model('FolderModel', folderSchema);

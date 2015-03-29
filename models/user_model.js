@@ -30,10 +30,10 @@ userSchema
 
 userSchema.path('email').required(true, '邮箱不能为空哦');
 
-userSchema.path('email').validate(function (email, fn) {
+userSchema.path('email').validate(function (_email, fn) {
     var User = mongoose.model('UserModel');
     if (this.isNew || this.isModified('email')) {
-        User.find({email: email}).exec(function (err, users) {
+        User.find({email: _email}).exec(function (err, users) {
             fn(!err && users.length === 0);
         });
     }
