@@ -32,15 +32,9 @@ app.use(session({ secret: 'Aafsknlaw1240-,',
 
 app.get('/captcha.jpg', captcha.generate);
 
-app.get('/', function(req, res){
-    res.type('html');
-    res.end('<img src="/captcha.jpg"/><form action="/login" method="post"><input type="text" name="digits"/></form>'); // captcha render 
-});
-
-app.post('/login', captcha.check);
-
 // app.use('/', routes);
 app.use('/users', users);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
