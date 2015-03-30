@@ -14,7 +14,7 @@ exports.getImage = function (req, res) {
     if (typeof req.params.iid !== 'string') {
         return res.json({
             code: 1,
-
+            message: "String error, empty input or something"
         });
     }
     Image.findOne({id: req.params.iid}, function (err, image) {
@@ -52,7 +52,8 @@ exports.uploadImage = function (req, res) {
         stream.wire(buffer);
         stream.on('error', function(err){
             res.json({
-                code: 100
+                code: 100,
+                message: "undefined"
             });
         });
         stream.on('finish', function() {
@@ -62,7 +63,8 @@ exports.uploadImage = function (req, res) {
             }); 
             image.save();
             res.json({
-                code:0
+                code:0,
+                message:"Image save Success"
             });
         });
 

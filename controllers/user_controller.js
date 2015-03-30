@@ -55,7 +55,6 @@ exports.login = function (req, res) {
             message: "邮箱为空"
         });
     }
-
     if (typeof req.body.password !== 'string') {
         return res.json({
             code: 1, // Error code 1 means string error
@@ -162,7 +161,7 @@ exports.hasSetSuperUser = function(req, res){
         }
         else{
             return res.json({
-                code: 6, //Error code 6 means Not super user
+                code: 3, //Error code 3 means Not super user
                 message: "Not Superuser"
             });
         }
@@ -181,6 +180,12 @@ exports.register = function(req, res){ //Register Function
         return res.json({
             code: 1,
             message: "密码为空"
+        });
+    }
+    if (req.body.passwordVerify !== req.body.password){
+        return res.json({
+            code: 6,
+            message: "Verify password not identical to password"
         });
     }
     User.findOne({ email: req.body.email }, function (err, user) {
