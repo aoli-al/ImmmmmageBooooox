@@ -6,15 +6,25 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var captcha = require('./controllers/captcha.js');
 var session = require('express-session');
+var multer = require('multer');
+var mongoose = require('mongoose');
+var fs = require('fs');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var folders = require('./routes/folders');
+var images = require('./routes/images');
 
 var app = express();
+mongoose.connect('mongodb://localhost/imagebox');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+fs.readdirSync(__dirname + '/models').forEach(function (file) {
+    if (~file.indexOf('.js')) require(__dirname + '/models' + file);
+});
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -27,6 +37,12 @@ app.use(session({ secret: 'Aafsknlaw1240-,',
     resave: false,
     saveUninitialized: true,
     cookie: { maxAge: 60000}}));
+app.use(multer({
+    dest: './uploads/',
+    rename: function (fieldname, filename) {
+        return filename.replace(/\W+/g, '-').toLowerCase() + Date.now();
+    }
+}));
 
 
 
@@ -34,6 +50,8 @@ app.get('/captcha.jpg', captcha.generate);
 
 // app.use('/', routes);
 app.use('/users', users);
+app.use('/images', images);
+app.use('/folders', folders);
 
 
 // catch 404 and forward to error handler
