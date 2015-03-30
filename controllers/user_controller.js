@@ -50,54 +50,72 @@ exports.superUserVerify = function (req, res, next) {
 
 exports.login = function (req, res) {
     if (typeof req.body.email !== 'string') {
-        return res.json({ code: 1, // Error code 1 means string error
-            message: "邮箱为空"});
+        return res.json({
+            code: 1, // Error code 1 means string error
+            message: "邮箱为空"
+        });
     }
 
     if (typeof req.body.password !== 'string') {
-        return res.json({ code: 1, // Error code 1 means string error
-            message: "密码为空" });
+        return res.json({
+            code: 1, // Error code 1 means string error
+            message: "密码为空"
+        });
     }
 
     User.findOne({ email: req.body.email }, function (err, user) {
         if (err) { //If user is not in database
-            return res.json({ code: 100,
-                message: "undefined"});
+            return res.json({
+                code: 100,
+                message: "undefined"
+            });
         } 
 
         if (user) { //If user is in database
             if (user.authenticate(req.body.password)) {
-                return res.json({code: 0, //Code 0 means everything is fine
-                                    message: "Authentication Correct"});
+                return res.json({
+                    code: 0, //Code 0 means everything is fine
+                    message: "Authentication Correct"
+                });
                 req.session.uid = user.id;
             } else {
-                return res.json({ code: 2, //Error code 2 means email or password error
-                                    message: "Email or Password error"});
+                return res.json({
+                    code: 2, //Error code 2 means email or password error
+                    message: "Email or Password error"
+                });
             } 
         }
         else {
             //no such email in database 
-            return res.json({ code: 2,
-                                message: "Email or Password error"});
+            return res.json({
+                code: 2,
+                message: "Email or Password error"
+            });
         }
     });
 }
 
 exports.changePassword = function (req, res){
     if(typeof user.password !== 'string'){ // Change password error
-        return res.json({ code: 1,
-            message: "密码为空"});
+        return res.json({
+            code: 1,
+            message: "密码为空"
+        });
     }
     User.findById({ id: req.session.uid}, function (err, user){
         if(err){ //If user not in database
-            return res.json({ code: 100,
-                message: "undefined"});
+            return res.json({
+                code: 100,
+                message: "undefined"
+            });
         }
         if(user){ //If user is in database
             user.password = req.body.password; // Change password
             user.save();
-            return res.json({ code:0
-                                message: "Change Password Complete"});
+            return res.json({
+                code:0
+                message: "Change Password Complete"
+            });
         }
     });
 }
@@ -106,17 +124,23 @@ exports.isSuperUser = function (req, res){
     User.findById( { id: req.body.id}, function(err, user){
         //Using userid, we determine if this account has superpowers
         if(err){ //If user is not in database
-            return res.json({ code: 100,
-                                message: "undefined"});
+            return res.json({
+                code: 100,
+                message: "undefined"
+            });
         }
         if(user){ //If user exits in database
             if(user.isSuperUser === 1){ //If user is superuser
-                return res.json({ code: 0,
-                                    message: "User is SuperUser"});
+                return res.json({
+                    code: 0,
+                    message: "User is SuperUser"
+                });
             }
             else{
-                return res.json({ code: 3, //Error Code 3 means Not SuperUser
-                                    message: "User is not SuperUser"});
+                return res.json({
+                    code: 3, //Error Code 3 means Not SuperUser
+                    message: "User is not SuperUser"
+                });
             }
         }
     });
@@ -125,16 +149,22 @@ exports.isSuperUser = function (req, res){
 exports.hasSetSuperUser = function(req, res){
     User.hasSetSuperUser(function (err, check) {
         if(err){
-            return res.json({ code: 100,
-                                message: "undefined"});
+            return res.json({
+                code: 100,
+                message: "undefined"
+            });
         }
         if(check){
-            return res.json({ code: 0,
-                                message: "Yes has set Superuser"})
+            return res.json({
+                code: 0,
+                message: "Yes has set Superuser"
+            });
         }
         else{
-            return res.json({ code: 6, //Error code 6 means Not super user
-                                message: "Not Superuser"})
+            return res.json({
+                code: 6, //Error code 6 means Not super user
+                message: "Not Superuser"
+            });
         }
     });
 }
@@ -142,26 +172,32 @@ exports.hasSetSuperUser = function(req, res){
 
 exports.register = function(req, res){ //Register Function
     if(typeof req.body.email !== 'string'){
-        return res.json({ code: 1,
-                            message: "邮箱为空"});
+        return res.json({
+            code: 1,
+            message: "邮箱为空"
+        });
     }
     if(typeof req.body.password !== 'string'){
-        return res.json({ code: 1,
-                            message: "密码为空"});
+        return res.json({
+            code: 1,
+            message: "密码为空"
+        });
     }
     User.findOne({ email: req.body.email }, function (err, user) {
         if (user) { //If user is in database (ergo, user clash)
-            return res.json({ code: 4, //Error code 4 means existing email or password
-                                message: "Email already in use"});
+            return res.json({
+                code: 4, //Error code 4 means existing email or password
+                message: "Email already in use"
+            });
         }
         if (!err) { //If user is not in database, means we can add this new user
             var newUser = new User({ email: req.body.email,
                 password: req.body.password});
             User.hasSetSuperUser(function (err, check){
-                if(check){
+                if(check){ //Means user is normal user
                     newUser.isSuperUser = 0;
                 }
-                else{
+                else{ //Means user is Super user
                     newUser.isSuperUser = 1;
                 }
                 newUser.save();
@@ -236,6 +272,7 @@ exports.logout = function (req, res) {
         if (!err) {
             return res.json({
                 code: 0
+                message: "Logout Success"
             });
         }
     });
