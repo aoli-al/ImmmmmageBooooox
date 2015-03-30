@@ -200,13 +200,13 @@ exports.addFolder = function(req, res){ // Add Folder Function
                         });
                     }
                     if (folder) {
-                        user.addFolder(folder, callback(err) {
+                        user.addFolder(folder, function (err) {
                             if (err) {
                                 console.log (err.message);
                                 error = err;
                             }
                         });
-                        folder.addUser(user, callback(err) {
+                        folder.addUser(user, function (err) {
                             if (err) {
                                 console.log (err.message);
                                 error = err;
@@ -231,7 +231,17 @@ exports.addFolder = function(req, res){ // Add Folder Function
     });
 }
 
-exports.getFolderList = function(req, res){ //Get folder list function
+exports.logout = function (req, res) {
+    req.session.destroy(function (err) {
+        if (!err) {
+            return res.json({
+                code: 0
+            });
+        }
+    });
+}
+
+exports.getFolderList = function(req, res) { //Get folder list function
     User.findOne({ id: req.session.uid }, function(err, user) {
         if (err) {
             return res.json({
