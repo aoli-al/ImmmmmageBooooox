@@ -13,7 +13,7 @@ var imageSchema = new mongoose.Schema({
     relatedFolder: {type:Schema.ObjectId, ref:'FolderModel'}
 });
 
-userSchema.path('path').validate(function (_path, fn){
+imageSchema.path('path').validate(function (_path, fn){
     var Image = mongoose.model('ImageModel');
     if (this.isNew || this.isModified('path')) {
         Image.find({path: _path}).exec(function (err, images){

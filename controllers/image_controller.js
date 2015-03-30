@@ -8,7 +8,7 @@ var mongoose = require('mongoose');
 var Folder = mongoose.model('FolderModel');
 var Image = mongoose.model('ImageModel');
 var Canvas = require('canvas');
-var fs require('fs');
+var fs = require('fs');
 
 exports.getImage = function (req, res) {
     if (typeof req.params.iid !== 'string') {
@@ -17,7 +17,7 @@ exports.getImage = function (req, res) {
 
         });
     }
-    Image.findOne({id: req.params.iid}, function (err, image)) {
+    Image.findOne({id: req.params.iid}, function (err, image) {
         if (image) {
             image.populate('relatedFolder')
                 .exec(function (err, folder) {
@@ -33,10 +33,10 @@ exports.getImage = function (req, res) {
                     });   
                 });
         }
-    }
+    });
 }
 
-export.uploadImage = function (req, res) {
+exports.uploadImage = function (req, res) {
     Folder.findOne( {id: req.body.fid }, function(err, folder) {
         if (err) {
             return ;

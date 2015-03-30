@@ -10,10 +10,6 @@ var multer = require('multer');
 var mongoose = require('mongoose');
 var fs = require('fs');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var folders = require('./routes/folders');
-var images = require('./routes/images');
 
 var app = express();
 mongoose.connect('mongodb://localhost/imagebox');
@@ -23,8 +19,13 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 fs.readdirSync(__dirname + '/models').forEach(function (file) {
-    if (~file.indexOf('.js')) require(__dirname + '/models' + file);
+    console.log(file);
+    if (~file.indexOf('.js')) require(__dirname + '/models/' + file);
 });
+
+var users = require('./routes/users');
+var folders = require('./routes/folders');
+var images = require('./routes/images');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));

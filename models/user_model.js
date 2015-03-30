@@ -53,7 +53,7 @@ userSchema.pre('save', function(next) {
 
 userSchema.methods =  {
     authenticate: function(plainText) {
-        return passwordHash.verify(plainText, self.hashedPassword);
+        return passwordHash.verify(plainText, this.hashedPassword);
     },
 
     addFolder: function(folder, callback) {
