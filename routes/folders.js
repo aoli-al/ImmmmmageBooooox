@@ -10,10 +10,10 @@ var folderController = require('../controllers/folder_controller.js');
 var userController = require('../controllers/user_controller.js');
 
 
-router.get('/get_user_list/:fid', userController.sessionVerify, folderController.getUserList);
+router.get('/user_list/:fid', userController.sessionVerify, folderController.getUserList);
 router.post('/create_folder', userController.superUserVerify, folderController.createFolder);
+router.get('/image_list/:fid', userController.sessionVerify, folderController.getImageList);
 // router.post('/create_folder', folderController.createFolder);
-
 
 module.exports = router;
 

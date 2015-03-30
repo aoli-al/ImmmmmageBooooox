@@ -47,4 +47,28 @@ exports.createFolder = function (req, res) {
 
 }
 
+exports.getImageList = function (req, res) {
+    if (typeof req.params.fid !== 'string') {
+        return res.json({
+            code: 1,
+        });
+    }
+    Folder
+        .findById(req.params.fid, 'imageList')
+        .exec(function (err, lists) {
+            if (err) {
+                console.log(err);
+                return res.json({
+                    code: 100,
+                    message "未知错误"
+                });
+            }
+            return res.json({
+                code: 0,
+                message: "",
+                data: lists
+            });
+        });
+}
+
 // TODO Add addUser function

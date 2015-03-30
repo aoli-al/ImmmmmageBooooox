@@ -126,6 +126,7 @@ exports.register = function(req, res){ //Register Function
     if(typeof req.body.email !== 'string'){
         return res.json({ code: 1,
             message: "邮箱为空"});
+        // TODO Check email format
     }
     if(typeof req.body.password !== 'string'){
         return res.json({ code: 1,
