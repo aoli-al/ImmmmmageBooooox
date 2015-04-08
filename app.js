@@ -80,7 +80,6 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
         message: "哇。。。瞎瞅啥",
-        error: new Error("还不去学习。。。"),
     });
 });
 
