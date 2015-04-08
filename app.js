@@ -76,6 +76,15 @@ if (app.get('env') === 'development') {
   });
 }
 
+if (app.get('env') === 'production' ) {
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: "哇。。。瞎瞅啥",
+        });
+    });
+}
+
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
