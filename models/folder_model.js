@@ -13,9 +13,7 @@ var folderSchema = new mongoose.Schema({
     name: { type: String, required: true },
     imageList: [{ type: Schema.ObjectId, ref: 'ImageModel' }],
     userList: [ {type:Schema.ObjectId, ref: 'UserModel' }],
-    parentFolder: { Schema.ObjectId, ref: 'FolderModel'},
-    childFolderList: [{ Schema.ObjectId, ref: 'FolderModel'}],
-})
+});
 
 
 folderSchema.methods = {
@@ -55,17 +53,6 @@ folderSchema.methods = {
             }
         });
     },
-
-    addChildFolder: function (fid, callback) {
-        this.populate({
-            path: 'childFolderList',
-            match: { id: fid },
-            select: 'id'
-        })
-        .exec(function (err, folders) {
-            // TODO
-        })
-    }
 
     hasPrivicy: function (userId, callback) {
         this.populate({

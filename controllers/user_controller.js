@@ -112,7 +112,7 @@ exports.changePassword = function (req, res){
             user.password = req.body.password; // Change password
             user.save();
             return res.json({
-                code:0
+                code:0,
                 message: "Change Password Complete"
             });
         }
@@ -276,7 +276,7 @@ exports.logout = function (req, res) {
     req.session.destroy(function (err) {
         if (!err) {
             return res.json({
-                code: 0
+                code: 0,
                 message: "Logout Success"
             });
         }
