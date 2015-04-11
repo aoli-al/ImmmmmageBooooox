@@ -26,6 +26,7 @@ fs.readdirSync(__dirname + '/models').forEach(function (file) {
 var users = require('./routes/users');
 var folders = require('./routes/folders');
 var images = require('./routes/images');
+var routes = require('./routes/routes.js')
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -49,7 +50,7 @@ app.use(multer({
 
 app.get('/captcha.jpg', captcha.generate);
 
-// app.use('/', routes);
+app.use('/', routes);
 app.use('/users', users);
 app.use('/images', images);
 app.use('/folders', folders);
