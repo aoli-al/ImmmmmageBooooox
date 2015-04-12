@@ -120,7 +120,7 @@ exports.changePassword = function (req, res){
 }
 
 exports.isSuperUser = function (req, res){
-    User.findById( { id: req.body.id}, function(err, user){
+    User.findById( { id: req.session.uid }, function(err, user){
         //Using userid, we determine if this account has superpowers
         if(err){ //If user is not in database
             return res.json({
