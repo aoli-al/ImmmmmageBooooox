@@ -22,7 +22,11 @@ exports.generate = function (req, res, next) {
 }
 
 exports.check = function (req, res, next) {
-    if (req.body.captcha == req.session.captcha) {
+    console.log(req.session.captcha);
+    if (typeof req.session.captcha !== 'string') {
+        res.json({ code: 2, message: "验证码错误" }); 
+    }
+    else if (req.body.captcha == req.session.captcha) {
         next(); 
     }
     else {

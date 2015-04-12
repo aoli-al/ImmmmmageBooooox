@@ -19,6 +19,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 app.use('/statics', express.static(__dirname + '/statics'));
+app.use(express.static(__dirname + '/views'));
 
 fs.readdirSync(__dirname + '/models').forEach(function (file) {
     console.log(file);
