@@ -9,6 +9,7 @@ var User = mongoose.model('UserModel');
 var Folder = mongoose.model('FolderModel');
 
 exports.sessionVerify = function (req, res, next) {
+    console.log("verify start");
     if (typeof req.session.uid !== 'string') {
         return res.json({
             code: 4,
@@ -123,6 +124,7 @@ exports.isSuperUser = function (req, res){
     User.findById( { id: req.session.uid }, function(err, user){
         //Using userid, we determine if this account has superpowers
         if(err){ //If user is not in database
+            console.log(err);
             return res.json({
                 code: 100,
                 message: "undefined"
