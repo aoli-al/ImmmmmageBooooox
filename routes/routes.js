@@ -4,7 +4,8 @@ var userController = require('../controllers/user_controller.js');
 var captcha = require('../controllers/captcha.js');
 
 router.get('/', function (req, res){
-    res.render('index');
+    console.log('render');
+    res.render('index.html');
 });
 
 

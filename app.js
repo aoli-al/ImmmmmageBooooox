@@ -16,7 +16,8 @@ mongoose.connect('mongodb://localhost/imagebox');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'ejs');
 
 fs.readdirSync(__dirname + '/models').forEach(function (file) {
     console.log(file);
