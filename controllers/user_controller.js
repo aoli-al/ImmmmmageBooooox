@@ -73,11 +73,11 @@ exports.login = function (req, res) {
 
         if (user) { //If user is in database
             if (user.authenticate(req.body.password)) {
+                req.session.uid = user.id;
                 return res.json({
                     code: 0, //Code 0 means everything is fine
                     message: "Authentication Correct"
                 });
-                req.session.uid = user.id;
             } else {
                 return res.json({
                     code: 2, //Error code 2 means email or password error
@@ -205,11 +205,11 @@ exports.register = function(req, res){ //Register Function
                     newUser.isSuperUser = 1;
                 }
                 newUser.save();
+                req.session.uid = newUser.id; //save user  
                 return res.json({
                     code: 0,
                     message: "Add new user's email success"
                 });    
-                req.session.uid = newUser.id; //save user  
             });
         }// end of add new user 
     }); // end of findOne (finding email)
