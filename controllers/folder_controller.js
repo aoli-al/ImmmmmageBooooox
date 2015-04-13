@@ -38,7 +38,7 @@ exports.deleteFolder = function (req, res) {
             message: "String Error, Empty input or something"
         });
     }
-    Folder.remove( {id: req.body.fid}, function (err) {
+    Folder.remove( {_id: req.body.fid}, function (err) {
         if (err) {
             console.log(err);
             return res.json({
@@ -101,7 +101,7 @@ exports.createFolder = function (req, res) {
         });
     }
     else {
-        Folder.findById(req.body.parentFolderId, 'id')
+        Folder.findById(req.body.parentFolderId, '_id')
             .exec(function (err, id) {
                 if (err) {
                     console.log(err);
@@ -119,7 +119,7 @@ exports.createFolder = function (req, res) {
                     code: 0,
                     message: "Create folder success",
                     data:{
-                        fid: newFolder.id,
+                        fid: newFolder._id,
                     }
                 });
             });

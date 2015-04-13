@@ -17,7 +17,7 @@ exports.getImage = function (req, res) {
             message: "String error, empty input or something"
         });
     }
-    Image.findOne({id: req.params.iid}, function (err, image) {
+    Image.findOne({_id: req.params.iid}, function (err, image) {
         if (image) {
             image.populate('relatedFolder')
                 .exec(function (err, folder) {
@@ -37,7 +37,7 @@ exports.getImage = function (req, res) {
 }
 
 exports.uploadImage = function (req, res) {
-    Folder.findOne( {id: req.body.fid }, function(err, folder) {
+    Folder.findOne( {_id: req.body.fid }, function(err, folder) {
         if (err) {
             return ;
         }
