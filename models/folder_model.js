@@ -11,8 +11,16 @@ var Schema = mongoose.Schema;
 var folderSchema = new mongoose.Schema({
     id: Schema.ObjectId,
     name: { type: String, required: true },
+    parentFolder: { type: Schema.ObjectId, ref: 'FolderModel'},
     imageList: [{ type: Schema.ObjectId, ref: 'ImageModel' }],
     userList: [ {type:Schema.ObjectId, ref: 'UserModel' }],
+});
+
+folderSchema.pre('remove', function(next){
+    var Image = mongoose.model('UserModel');
+    Image.remove({relatedFolder: this.id}).exec();
+    this.remove({parentFolder: this.id}).exec();
+    next();
 });
 
 
@@ -27,7 +35,7 @@ folderSchema.methods = {
             .exec(function(err, users) {
                 if (err) return callback(err);
                 if (!users || (users.size() === 0)) {
-                    this.push(user); 
+                    this.userList.push(user); 
                     this.save(callback);
                 } 
                 else {
@@ -45,7 +53,7 @@ folderSchema.methods = {
         .exec(function (err, images) {
             if (err) return callback(err); 
             if (!images || (images.size() === 0)) {
-                this.push(image);
+                this.imageList.push(image);
                 this.save(callback);
             }
             else {

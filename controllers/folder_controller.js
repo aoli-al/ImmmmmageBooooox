@@ -31,12 +31,30 @@ exports.getUserList = function (req, res) {
         });
 }
 
+exports.deleteFolder = function (req, res) {
+    if (typeof req.body.fid !== 'string') {
+        return res.json({
+            code: 1,
+            message: "String Error, Empty input or something"
+        });
+    }
+    
+}
+
 exports.createFolder = function (req, res) {
     if (typeof req.body.name !== 'string') {
         return res.json({
             code: 1,
             message: "String Error, Empty input or something"
         });
+    }
+    if (typeof req.body.parentFolderId !== 'string') {
+        return res.json({
+            code: 1,
+            message: "String Error, Empty input or something"
+        });
+    }
+    if (req.body.parentFolderId === "#") {
         var newFolder = new Folder({
             name: req.body.name
         });
@@ -46,7 +64,27 @@ exports.createFolder = function (req, res) {
             message: "Create folder success"
         });
     }
-
+    else {
+        Folder.findById(req.body.parentFolderId, 'id')
+            .exec(function (err, id) {
+                if (err) {
+                    console.log(err);
+                    return res.json({
+                        code: 100,
+                        message: "未知错误"
+                    });
+                }
+                var newFolder = new Folder({
+                    name: req.body.name,
+                    parentFolder: id
+                });
+                newFolder.save();
+                res.json({
+                    code: 0,
+                    message: "Create folder success"
+                });
+            });
+    }
 }
 
 exports.getImageList = function (req, res) {

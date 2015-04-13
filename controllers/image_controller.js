@@ -45,7 +45,7 @@ exports.uploadImage = function (req, res) {
             return ;
         }
         var file = req.files.file;
-        var path = __dirname + '/images/'; 
+        var path = './images/'; 
         var buffer = file.buffer;
         var fileName = file.name;
         var stream = fs.createWriteStream(path + fileName);
