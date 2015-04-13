@@ -11,7 +11,7 @@ var userController = require('../controllers/user_controller.js');
 
 
 router.get('/user_list/:fid', userController.sessionVerify, folderController.getUserList);
-router.post('/create_folder', userController.superUserVerify, folderController.createFolder);
+router.post('/create', userController.superUserVerify, folderController.createFolder);
 router.get('/image_list/:fid', userController.sessionVerify, folderController.getImageList);
 // router.post('/create_folder', folderController.createFolder);
 router.post('/delete', userController.superUserVerify, folderController.deleteFolder);
