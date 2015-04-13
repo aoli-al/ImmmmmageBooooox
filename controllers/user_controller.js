@@ -17,7 +17,7 @@ exports.sessionVerify = function (req, res, next) {
         });
     }
     else {
-        User.findOne({id: req.session.uid}, function (err, user) {
+        User.findOne({_id: req.session.uid}, function (err, user) {
             if (user) {
                 return next();
             }
@@ -37,7 +37,7 @@ exports.superUserVerify = function (req, res, next) {
         });
     }
     else {
-        User.findOne({id: req.session.uid}, function (err, user) {
+        User.findOne({_id: req.session.uid}, function (err, user) {
             if (user.isSuperUser === 1) {
                 return next();
             }
@@ -104,7 +104,7 @@ exports.changePassword = function (req, res){
             message: "密码为空"
         });
     }
-    User.findById({ id: req.session.uid}, function (err, user){
+    User.findById({ _id: req.session.uid}, function (err, user){
         if(err){ //If user not in database
             return res.json({
                 code: 100,
@@ -225,7 +225,7 @@ exports.addFolder = function(req, res){ // Add Folder Function
             message: "List is empty"
         }); 
     }
-    User.findOne({ id: req.body.uid }, function (err, user) {
+    User.findOne({ _id: req.body.uid }, function (err, user) {
         if (err) {
             return res.json({ 
                 code: 100,
@@ -286,7 +286,7 @@ exports.logout = function (req, res) {
 }
 
 exports.getFolderList = function(req, res) { //Get folder list function
-    User.findOne({ id: req.session.uid }, function(err, user) {
+    User.findOne({ _id: req.session.uid }, function(err, user) {
         if (err) {
             return res.json({
                 code: 100,
