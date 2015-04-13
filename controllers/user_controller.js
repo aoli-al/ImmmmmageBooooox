@@ -73,7 +73,9 @@ exports.login = function (req, res) {
 
         if (user) { //If user is in database
             if (user.authenticate(req.body.password)) {
-                req.session.uid = user.id;
+                req.session.uid = user._id;
+                console.log(user);
+                console.log(req.session);
                 return res.json({
                     code: 0, //Code 0 means everything is fine
                     message: "Authentication Correct"
@@ -121,8 +123,9 @@ exports.changePassword = function (req, res){
 }
 
 exports.isSuperUser = function (req, res){
-    User.findById( { id: req.session.uid }, function(err, user){
+    User.findById( { _id: req.session.uid }, function(err, user){
         //Using userid, we determine if this account has superpowers
+        console.log(req.session);
         if(err){ //If user is not in database
             console.log(err);
             return res.json({
@@ -205,7 +208,7 @@ exports.register = function(req, res){ //Register Function
                     newUser.isSuperUser = 1;
                 }
                 newUser.save();
-                req.session.uid = newUser.id; //save user  
+                req.session.uid = newUser._id; //save user  
                 return res.json({
                     code: 0,
                     message: "Add new user's email success"
