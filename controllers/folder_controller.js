@@ -38,7 +38,19 @@ exports.deleteFolder = function (req, res) {
             message: "String Error, Empty input or something"
         });
     }
-    
+    Folder.remove( {id: req.body.fid}, function (err) {
+        if (err) {
+            console.log(err);
+            return res.json({
+                code: 100,
+                message: "未知错误"
+            });
+        }
+        return res.json({
+            code: 0,
+            message: 'success'
+        });
+    }); 
 }
 
 exports.createFolder = function (req, res) {
@@ -81,7 +93,10 @@ exports.createFolder = function (req, res) {
                 newFolder.save();
                 res.json({
                     code: 0,
-                    message: "Create folder success"
+                    message: "Create folder success",
+                    data:{
+                        fid: newFolder.id,
+                    }
                 });
             });
     }
