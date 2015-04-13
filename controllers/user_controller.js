@@ -147,7 +147,7 @@ exports.isSuperUser = function (req, res){
     });
 }
 
-exports.hasSetSuperUser = function(req, res){
+exports.hasSetSuperUser = function(req, res, next){
     User.hasSetSuperUser(function (err, check) {
         if(err){
             return res.json({
@@ -156,14 +156,11 @@ exports.hasSetSuperUser = function(req, res){
             });
         }
         if(check){
-            return res.json({
-                code: 0,
-                message: "Yes has set Superuser"
-            });
+            next();
         }
         else{
             return res.json({
-                code: 3, //Error code 3 means Not super user
+                code: 101, //Error code 3 means Not super user
                 message: "Not Superuser"
             });
         }

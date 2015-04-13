@@ -14,6 +14,8 @@ router.get('/user_list/:fid', userController.sessionVerify, folderController.get
 router.post('/create_folder', userController.superUserVerify, folderController.createFolder);
 router.get('/image_list/:fid', userController.sessionVerify, folderController.getImageList);
 // router.post('/create_folder', folderController.createFolder);
+router.post('/delete', userController.superUserVerify, folderController.deleteFolder);
+router.post('/change_name', userController.superUserVerify, folderController.modifyFolderName);
 
 module.exports = router;
 

@@ -53,6 +53,30 @@ exports.deleteFolder = function (req, res) {
     }); 
 }
 
+exports.modifyFolderName = function (req, res) {
+    if (typeof req.body.fid !== 'string' || typeof req.body.name !== 'string') {
+        return res.json({
+            code: 1,
+            message: ""
+        });
+    }
+    Folder.findById(req.body.fid)
+        .exec(function (err, folder){
+            if (err) {
+                console.log(err);
+                return res.json({
+                    code: 100,
+                    message: "未知错误"
+                });
+            }
+            folder.name = req.body.name;
+            folder.save();
+            return res.json({
+
+            });
+        });
+}
+
 exports.createFolder = function (req, res) {
     if (typeof req.body.name !== 'string') {
         return res.json({
