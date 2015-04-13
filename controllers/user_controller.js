@@ -201,6 +201,7 @@ exports.register = function(req, res){ //Register Function
             var newUser = new User({ email: req.body.email,
                 password: req.body.password});
             User.hasSetSuperUser(function (err, check){
+                console.log(check);
                 if(check){ //Means user is normal user
                     newUser.isSuperUser = 0;
                 }
@@ -208,6 +209,7 @@ exports.register = function(req, res){ //Register Function
                     newUser.isSuperUser = 1;
                 }
                 newUser.save();
+                console.log(newUser);
                 req.session.uid = newUser._id; //save user  
                 return res.json({
                     code: 0,
@@ -298,6 +300,22 @@ exports.getFolderList = function(req, res) { //Get folder list function
                 code: 100,
                 message: "undefined"
             });
+        }
+        if (user.isSuperUser === 1) {
+            console.log("super!");
+            return Folder.find()
+                .select('_id')
+                .exec(function (err, folders) {
+                    console.log(err);
+                    console.log(folders);
+                    return res.json({
+                        code: 0,
+                        message: "Get folder Success",
+                        data: {
+                            folderList: folders
+                        }
+                    });
+                })
         }
         return res.json({
             code: 0,

@@ -133,44 +133,21 @@ exports.getImageList = function (req, res) {
             message: "String Error, Empty input or something"
         });
     }
-    User.findById(req.session.uid)
-        .exec(function (err, user) {
-            if (user.isSuperUser === 1) {
-                Folder
-                    .find()
-                    .exec(function (err, lists) {
-                        if (err) {
-                            console.log(err);
-                            return res.json({
-                                code: 100,
-                                message: "未知错误"
-                            });
-                        }
-                        return res.json({
-                            code: 0,
-                            message: "Get Image List Success",
-                            data: lists
-                        });
-                    });
+    Folder
+        .findById(req.params.fid, 'imageList')
+        .exec(function (err, lists) {
+            if (err) {
+                console.log(err);
+                return res.json({
+                    code: 100,
+                    message: "未知错误"
+                });
             }
-            else {
-                Folder
-                    .findById(req.params.fid, 'imageList')
-                    .exec(function (err, lists) {
-                        if (err) {
-                            console.log(err);
-                            return res.json({
-                                code: 100,
-                                message: "未知错误"
-                            });
-                        }
-                        return res.json({
-                            code: 0,
-                            message: "Get Image List Success",
-                            data: lists
-                        });
-                    });
-            }
+            return res.json({
+                code: 0,
+                message: "Get Image List Success",
+                data: lists
+            });
         });
 }
 
