@@ -112,7 +112,7 @@ exports.createFolder = function (req, res) {
                 }
                 var newFolder = new Folder({
                     name: req.body.name,
-                    parentFolder: id
+                    parentFolder: id,
                 });
                 newFolder.save();
                 res.json({
@@ -133,21 +133,44 @@ exports.getImageList = function (req, res) {
             message: "String Error, Empty input or something"
         });
     }
-    Folder
-        .findById(req.params.fid, 'imageList')
-        .exec(function (err, lists) {
-            if (err) {
-                console.log(err);
-                return res.json({
-                    code: 100,
-                    message: "未知错误"
-                });
+    User.findById(req.session.uid)
+        .exec(function (err, user) {
+            if (user.isSuperUser === 1) {
+                Folder
+                    .find()
+                    .exec(function (err, lists) {
+                        if (err) {
+                            console.log(err);
+                            return res.json({
+                                code: 100,
+                                message: "未知错误"
+                            });
+                        }
+                        return res.json({
+                            code: 0,
+                            message: "Get Image List Success",
+                            data: lists
+                        });
+                    });
             }
-            return res.json({
-                code: 0,
-                message: "Get Image List Success",
-                data: lists
-            });
+            else {
+                Folder
+                    .findById(req.params.fid, 'imageList')
+                    .exec(function (err, lists) {
+                        if (err) {
+                            console.log(err);
+                            return res.json({
+                                code: 100,
+                                message: "未知错误"
+                            });
+                        }
+                        return res.json({
+                            code: 0,
+                            message: "Get Image List Success",
+                            data: lists
+                        });
+                    });
+            }
         });
 }
 
