@@ -31,6 +31,33 @@ exports.getUserList = function (req, res) {
         });
 }
 
+exports.getFolderInfo = function (req, res) {
+    if (typeof req.params.fid !== 'string') {
+        return res.json({
+            code: 1,
+            message:"Empty input"
+        });
+    }
+    Folder.findById(req.params.fid, 'name parentFolder')
+        .exec(function (err, folder) {
+            if (err) {
+                console.log(err);
+                return res.json({
+                    code: 100,
+                    message: "未知错误"
+                });
+            }
+            return res.json({
+                code: 0,
+                message: "",
+                data: {
+                    name: folder.name,
+                    parentFolder: folder.parentFolder
+                }
+            });
+        });
+}
+
 exports.deleteFolder = function (req, res) {
     if (typeof req.body.fid !== 'string') {
         return res.json({
