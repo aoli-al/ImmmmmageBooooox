@@ -17,12 +17,14 @@ exports.generate = function (req, res, next) {
         req.session.captcha = captchaCode;
     }
 
+    console.log(req.session);
     captcha.generate();
     res.send(captcha.buffer());
 }
 
 exports.check = function (req, res, next) {
-    console.log(req.session.captcha);
+    console.log(req.session);
+    console.log(req.cookies);
     if (typeof req.session.captcha !== 'string') {
         res.json({ code: 2, message: "验证码错误" }); 
     }

@@ -10,14 +10,14 @@ var Folder = mongoose.model('FolderModel');
 
 exports.sessionVerify = function (req, res, next) {
     console.log("verify start");
-    if (typeof req.session.uid !== 'string') {
+    if (typeof req.cookiess.uid !== 'string') {
         return res.json({
             code: 4,
             message: "未登录"
         });
     }
     else {
-        User.findOne({_id: req.session.uid}, function (err, user) {
+        User.findOne({_id: req.cookiess.uid}, function (err, user) {
             if (user) {
                 return next();
             }
@@ -30,14 +30,14 @@ exports.sessionVerify = function (req, res, next) {
 }
 
 exports.superUserVerify = function (req, res, next) {
-    if (typeof req.session.uid !== 'string') {
+    if (typeof req.cookies.uid !== 'string') {
         return res.json({
             code: 4,
             message: "未登录"
         });
     }
     else {
-        User.findOne({_id: req.session.uid}, function (err, user) {
+        User.findOne({_id: req.cookies.uid}, function (err, user) {
             if (user.isSuperUser === 1) {
                 return next();
             }
@@ -73,9 +73,10 @@ exports.login = function (req, res) {
 
         if (user) { //If user is in database
             if (user.authenticate(req.body.password)) {
-                req.session.uid = user._id;
+                // req.cookies('uid', user._id, {maxAge: 60 * 60 * 24 * 1000});
+                req.cookies.uid = user._id;
                 console.log(user);
-                console.log(req.session);
+                console.log(req.cookies);
                 return res.json({
                     code: 0, //Code 0 means everything is fine
                     message: "Authentication Correct"
@@ -104,7 +105,7 @@ exports.changePassword = function (req, res){
             message: "密码为空"
         });
     }
-    User.findById({ _id: req.session.uid}, function (err, user){
+    User.findById({ _id: req.cookies.uid}, function (err, user){
         if(err){ //If user not in database
             return res.json({
                 code: 100,
@@ -123,9 +124,9 @@ exports.changePassword = function (req, res){
 }
 
 exports.isSuperUser = function (req, res){
-    User.findById( { _id: req.session.uid }, function(err, user){
+    User.findById( { _id: req.cookies.uid }, function(err, user){
         //Using userid, we determine if this account has superpowers
-        console.log(req.session);
+        console.log(req.cookies);
         if(err){ //If user is not in database
             console.log(err);
             return res.json({
@@ -210,7 +211,8 @@ exports.register = function(req, res){ //Register Function
                 }
                 newUser.save();
                 console.log(newUser);
-                req.session.uid = newUser._id; //save user  
+                // req.cookies('uid', user._id, {maxAge: 60 * 60 * 24 * 1000});
+                req.cookies.uid = user._id;
                 return res.json({
                     code: 0,
                     message: "Add new user's email success"
@@ -277,18 +279,15 @@ exports.addFolder = function(req, res){ // Add Folder Function
 }
 
 exports.logout = function (req, res) {
-    req.session.destroy(function (err) {
-        if (!err) {
-            return res.json({
-                code: 0,
-                message: "Logout Success"
-            });
-        }
+    res.clearCookie('uid');
+    return res.json({
+        code: 0,
+        message: "Logout Success"
     });
 }
 
 exports.getFolderList = function(req, res) { //Get folder list function
-    User.findOne({ _id: req.session.uid }, function(err, user) {
+    User.findOne({ _id: req.cookies.uid }, function(err, user) {
         if (err) {
             return res.json({
                 code: 100,

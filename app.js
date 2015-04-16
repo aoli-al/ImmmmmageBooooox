@@ -36,12 +36,13 @@ var routes = require('./routes/routes.js')
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser('asdf123noAD1-241;a'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'Aafsknlaw1240-,', 
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 60000}}));
+    cookie: { maxAge: 10000}
+}));
 app.use(multer({
     dest: './uploads/',
     rename: function (fieldname, filename) {

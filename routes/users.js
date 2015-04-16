@@ -10,5 +10,6 @@ router.post('/change_password', userController.sessionVerify, userController.cha
 router.get('/is_superuser', userController.isSuperUser);
 // router.get('/is_superuser',  userController.sessionVerify, userController.isSuperUser);
 router.get('/folder_list', userController.sessionVerify, userController.getFolderList);
+router.get('/logout', userController.logout);
 
 module.exports = router;

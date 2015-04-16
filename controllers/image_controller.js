@@ -21,7 +21,7 @@ exports.getImage = function (req, res) {
         if (image) {
             image.populate('relatedFolder')
                 .exec(function (err, folder) {
-                    folder.hasPrivicy(req.session.uid, function (check) {
+                    folder.hasPrivicy(req.cookie.uid, function (check) {
                         if (check) {
                             fs.readFile(image.path, function(err, squid){
                                 if (err) {
