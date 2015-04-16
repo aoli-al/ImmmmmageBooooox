@@ -10,13 +10,18 @@ var Folder = mongoose.model('FolderModel');
 
 exports.sessionVerify = function (req, res, next) {
     console.log("verify start");
-    if (typeof req.cookiess.uid !== 'string') {
+    console.log('pu');
+    console.log(req.cookies);
+    if (typeof req.cookies.uid !== 'string') {
+        console.log('pu');
         return res.json({
             code: 4,
             message: "未登录"
         });
     }
     else {
+        console.log("pu");
+        console.log(req.cookies);
         User.findOne({_id: req.cookiess.uid}, function (err, user) {
             if (user) {
                 return next();
