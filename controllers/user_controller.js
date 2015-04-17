@@ -22,7 +22,7 @@ exports.sessionVerify = function (req, res, next) {
     else {
         console.log("pu");
         console.log(req.cookies);
-        User.findOne({_id: req.cookiess.uid}, function (err, user) {
+        User.findOne({_id: req.cookies.uid}, function (err, user) {
             if (user) {
                 return next();
             }
@@ -79,9 +79,9 @@ exports.login = function (req, res) {
         if (user) { //If user is in database
             if (user.authenticate(req.body.password)) {
                 // req.cookies('uid', user._id, {maxAge: 60 * 60 * 24 * 1000});
-                req.cookies.uid = user._id;
+                // res.cookies.uid = user._id;
                 console.log(user);
-                console.log(req.cookies);
+                res.cookie('uid', user._id, {maxAge: 60 * 60 * 24 * 1000});
                 return res.json({
                     code: 0, //Code 0 means everything is fine
                     message: "Authentication Correct"
