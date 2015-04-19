@@ -47,12 +47,21 @@ exports.getImage = function (req, res) {
 }
 
 exports.uploadImage = function (req, res) {
+    if (typeof req.body.fid !== 'string') {
+        return res.json({
+            code: 1,
+        });
+    }
     Folder.findOne( {_id: req.body.fid }, function(err, folder) {
         if (err) {
-            return ;
+            return res.json({
+                code: 2
+            });
         }
         if (!folder) {
-            return ;
+            return res.json({
+                code: 2
+            });
         }
         console.log(req.files)
         var file = req.files.file;
