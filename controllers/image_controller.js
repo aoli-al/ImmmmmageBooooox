@@ -37,10 +37,11 @@ exports.getImage = function (req, res) {
                         }
                         return res.send(squid);
                     });
+                } else {
+                    return res.json({
+                        code: 3
+                    });
                 }
-                return res.json({
-                    code: 3
-                });
             });   
         });
 }
