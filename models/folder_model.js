@@ -63,18 +63,12 @@ folderSchema.methods = {
     },
 
     hasPrivicy: function (userId, callback) {
-        this.populate({
-            path: 'userList',
-            match: { id: userId },
-            select: 'id'
-        })
-        .exec(function (err, users) {
-            if (err) return callback(false);
-            if (!users || (users.size() === 0)) {
-               return callback(false);
-            }
-            return callback(true);
-        });
+        if (this.userList.indexOf(userId) > -1) {
+            callback(null, true)
+        }
+        else {
+            callback(null, false)
+        }
     }
 }
 

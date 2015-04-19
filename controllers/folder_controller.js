@@ -119,8 +119,10 @@ exports.createFolder = function (req, res) {
     }
     if (req.body.parentFolderId === "#") {
         var newFolder = new Folder({
-            name: req.body.name
+            name: req.body.name,
+            userList: [req.cookies.uid]
         });
+        console.log(req.cookies);
         newFolder.save();
         res.json({
             code: 0,
@@ -139,8 +141,11 @@ exports.createFolder = function (req, res) {
                 }
                 var newFolder = new Folder({
                     name: req.body.name,
+                    userList: [req.cookies.uid],
                     parentFolder: id,
                 });
+                console.log(newFolder);
+                console.log(req.cookies);
                 newFolder.save();
                 res.json({
                     code: 0,
