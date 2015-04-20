@@ -2,10 +2,10 @@ var pic_in_fldr=[];
 
 var pic_num=0;
 function add_pic_to_show(pic_id){
-		var url='/images/get_image/'+pic_id;
-		$("#picSlide").append("<div class='item' pic_id='"+pic_id+"'><img src='"+url+"'/></div>");
-		$('#picture-area-all').append('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3"><a href="#" class="thumbnail" pic_id="'+pic_id+'"><img src="'+url+'" class="pic" alt="缩略图"></a></div>');
-		pic_num+=1;
+	var url='/images/get_image/'+pic_id;
+	$("#picSlide").append("<div class='item active' pic_id='"+pic_id+"'><img src='"+url+"'/></div>");
+	$('#picture-area-all').append('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3"><a href="#" class="thumbnail" pic_id="'+pic_id+'"><img src="'+url+'" class="pic" alt="缩略图"></a></div>');
+	pic_num+=1;
 	
 }
 
@@ -17,7 +17,7 @@ function refresh_pic_content(target_fldr_id){
 	//get image id using target_fldr_id
 	$.get('/folders/image_list/'+target_fldr_id, function(data) {
 		pic_in_fldr=data.data.imageList;
-		while (pic_num<pic_in_fldr.length&&pic_num<50){
+		while (pic_num<pic_in_fldr.length&&pic_num<30){
 			add_pic_to_show(pic_in_fldr[pic_num]);
 			pic_num++;
 		}
@@ -48,7 +48,11 @@ $(document).ready(function (){
 		nScrollTop = $(this)[0].scrollTop;
 		//$('#home').html(nScrollTop + nDivHight-nScrollHight);
 		if(nScrollTop + nDivHeight >= nScrollHeight-300){
-			
+			var count=0;
+			while(count<20&&pic_num<pic_in_fldr.length){
+				add_pic_to_show(pic_in_fldr[pic_num]);
+				count++;pic_num++;
+			}
 		}
     });
 

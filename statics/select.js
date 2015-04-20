@@ -92,12 +92,11 @@ function f_delete() {
 };
 
 function f_download() {
-	var pics=$('.thumbnail').filter('.selected');
-	$.each(pics,function(key,val){
-		var elemIF=document_createElement_x('iframe');
-		elemIF.src=val.children('img').src;
+	$('.thumbnail').filter('.selected').each(function(){
+		var elemIF=document.createElement('iframe');
+		elemIF.src=$(this).children('img').attr('src');
 		elemIF.style.display='none';
-		document.body.a(elemIF);
+		document.body.appendChild(elemIF);
 	});
 };
 

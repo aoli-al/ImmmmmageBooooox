@@ -6,5 +6,5 @@ function move_fldr(){
 function logout(){
 	$.get('/users/logout',function(res){
 		if(res.code == 0)location.href = "index.html";
-	})
+	});
 }

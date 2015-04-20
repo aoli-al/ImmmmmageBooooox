@@ -12,6 +12,7 @@ $(document).ready(function(){
             
             if(fileType == "pic")
             {
+                ext=ext.toLowerCase();
                 var folder_id=$('#jstree').jstree('get_selected');
                 if (ext && /^(jpg|png|jpeg|gif)$/.test(ext)){
                     this.setData({
@@ -39,8 +40,8 @@ $(document).ready(function(){
         },
         onComplete: function(file, response){
             refresh_pic_content(current_fldr_id);
-            if(response != "success")
-                alert(response);
+            if(response.code!=0)
+                //alert(response.message);
                  
             button.html('<span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>Upload');
                          
@@ -49,7 +50,7 @@ $(document).ready(function(){
             this.enable();
              
             if(response == "success");
-                alert(file);                  
+                //alert(file);                  
         }
     });
   

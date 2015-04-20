@@ -128,25 +128,27 @@ function build_trees () {
 						"fid" : val.id 
 					},
 					function(res){
-						//alert('delete code ' + res.code);
+						if (res.code==0){
+							tree_structure.splice(to_be_delete, 1);
+							if (tree_structure.length==0){
+								$.post('/folders/create', 
+								{
+									"name"	: "New Node",
+									"parentFolderId" : '#'
+								},
+								function(res) {
+									if (res.code!=0)
+										alert("the folder " + res.message);
+									tree_structure=[{ "id" : res.data.fid, "parent" : '#', "text" : "New Node" }];
+									refresh_trees();
+								});
+							}else 
+								refresh_trees();
+						}else alert(res.message); 
 				});
 			}
 		});
-		tree_structure.splice(to_be_delete, 1);
-		if (tree_structure.length==0){
-			$.post('/folders/create', 
-			{
-				"name"	: "New Node",
-				"parentFolderId" : '#'
-			},
-			function(res) {
-				if (code!=0)
-					alert("the folder " + res.message);
-				tree_structure=[{ "id" : res.data.fid, "parent" : '#', "text" : "New Node" }];
-				refresh_trees();
-			});
-		}else 
-			refresh_trees();
+		
 	})
 	.jstree(jstree_data);
 	//config the authorize_folder_select jstree
