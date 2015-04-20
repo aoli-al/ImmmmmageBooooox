@@ -1,0 +1,20 @@
+- users
+    - add_folder
+        - folderList - Array
+    - logout - get
+    - change_password
+        - password
+    - is_superuser - get
+- folders
+    - create
+        - name
+        - parentFolderId
+    - change_name
+        - fid
+        - name
+    - delete
+        - fid
+- images
+    - upload_image
+        - fid
+        - file

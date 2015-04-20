@@ -18,8 +18,10 @@ var folderSchema = new mongoose.Schema({
 
 folderSchema.pre('remove', function(next){
     var Image = mongoose.model('UserModel');
-    Image.remove({relatedFolder: this.id}).exec();
-    this.remove({parentFolder: this.id}).exec();
+    var Folder = mongoose.model('FolderModel');
+    console.log('deleting');
+    Image.remove({relatedFolder: this._id}).exec();
+    Folder.remove({parentFolder: this._id}).exec();
     next();
 });
 
@@ -63,18 +65,12 @@ folderSchema.methods = {
     },
 
     hasPrivicy: function (userId, callback) {
-        this.populate({
-            path: 'userList',
-            match: { id: userId },
-            select: 'id'
-        })
-        .exec(function (err, users) {
-            if (err) return callback(false);
-            if (!users || (users.size() === 0)) {
-               return callback(false);
-            }
-            return callback(true);
-        });
+        if (this.userList.indexOf(userId) > -1) {
+            callback(null, true)
+        }
+        else {
+            callback(null, false)
+        }
     }
 }
 

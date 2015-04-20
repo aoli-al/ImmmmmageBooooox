@@ -153,6 +153,12 @@ exports.isSuperUser = function (req, res){
                 });
             }
         }
+        else {
+            return res.json({
+                code: 10,
+                message: "不存在该用户"
+            });
+        }
     });
 }
 
@@ -217,7 +223,7 @@ exports.register = function(req, res){ //Register Function
                 newUser.save();
                 console.log(newUser);
                 // req.cookies('uid', user._id, {maxAge: 60 * 60 * 24 * 1000});
-                req.cookies.uid = user._id;
+                req.cookies.uid = newUser._id;
                 return res.json({
                     code: 0,
                     message: "Add new user's email success"

@@ -65,7 +65,7 @@ exports.deleteFolder = function (req, res) {
             message: "String Error, Empty input or something"
         });
     }
-    Folder.remove( {_id: req.body.fid}, function (err) {
+    Folder.findById(req.body.fid, function(err, folder){
         if (err) {
             console.log(err);
             return res.json({
@@ -73,11 +73,20 @@ exports.deleteFolder = function (req, res) {
                 message: "未知错误"
             });
         }
-        return res.json({
-            code: 0,
-            message: 'success'
-        });
-    }); 
+        if (folder) {
+            folder.remove();
+            return res.json({
+                code: 0,
+                message: 'success'
+            });
+        }
+        else {
+            return res.json({
+                code: 5,
+                message: '木有文件夹'
+            });
+        }
+    });
 }
 
 exports.modifyFolderName = function (req, res) {
@@ -119,8 +128,10 @@ exports.createFolder = function (req, res) {
     }
     if (req.body.parentFolderId === "#") {
         var newFolder = new Folder({
-            name: req.body.name
+            name: req.body.name,
+            userList: [req.cookies.uid]
         });
+        console.log(req.cookies);
         newFolder.save();
         res.json({
             code: 0,
@@ -139,8 +150,11 @@ exports.createFolder = function (req, res) {
                 }
                 var newFolder = new Folder({
                     name: req.body.name,
+                    userList: [req.cookies.uid],
                     parentFolder: id,
                 });
+                console.log(newFolder);
+                console.log(req.cookies);
                 newFolder.save();
                 res.json({
                     code: 0,

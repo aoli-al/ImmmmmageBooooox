@@ -4,7 +4,7 @@ var userController = require('../controllers/user_controller.js');
 var captcha = require('../controllers/captcha.js');
 
 // router.post('/login', captcha.check, userController.login);
-router.post('/login',  userController.login);
+router.post('/login',  userController.hasSetSuperUser, userController.login);
 // router.post('/register', captcha.check, userController.register);
 router.post('/register', userController.register);
 router.post('/add_folder', userController.superUserVerify, userController.addFolder);

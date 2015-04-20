@@ -17,55 +17,68 @@ exports.getImage = function (req, res) {
             message: "String error, empty input or something"
         });
     }
-    Image.findOne({_id: req.params.iid}, function (err, image) {
-        if (image) {
-            image.populate('relatedFolder')
-                .exec(function (err, folder) {
-                    folder.hasPrivicy(req.cookie.uid, function (check) {
-                        if (check) {
-                            fs.readFile(image.path, function(err, squid){
-                                if (err) {
-                                    return ;
-                                }
-                                res.send(squid);
+    Image.findOne({_id: req.params.iid})
+        .populate("relatedFolder")
+        .exec(function(err, image) {
+            if (!image) {
+                return res.json({
+                    code: 100,
+                    message: ""
+                });
+            }
+            console.log(image);
+            image.relatedFolder.hasPrivicy(req.cookies.uid, function (er, check) {
+                if (check) {
+                    fs.readFile(image.path, function(err, squid){
+                        if (err) {
+                            return res.json({
+                                code:100
                             });
                         }
-                    });   
-                });
-        }
-    });
+                        return res.send(squid);
+                    });
+                } else {
+                    return res.json({
+                        code: 3
+                    });
+                }
+            });   
+        });
 }
 
 exports.uploadImage = function (req, res) {
+    if (typeof req.body.fid !== 'string') {
+        return res.json({
+            code: 1,
+        });
+    }
+    console.log(req.body.fid);
     Folder.findOne( {_id: req.body.fid }, function(err, folder) {
         if (err) {
-            return ;
+            console.log(err);
+            return res.json({
+                code: 100
+            });
         }
         if (!folder) {
-            return ;
+            console.log("图片不存在");
+            return res.json({
+                code: 2
+            });
         }
+        console.log(req.files)
         var file = req.files.file;
-        var path = './images/'; 
-        var buffer = file.buffer;
-        var fileName = file.name;
-        var stream = fs.createWriteStream(path + fileName);
-        stream.wire(buffer);
-        stream.on('error', function(err){
-            res.json({
-                code: 100,
-                message: "undefined"
-            });
-        });
-        stream.on('finish', function() {
-            var image = new Image({
-                path: path+name,
-                relatedFolder: req.body.fid 
-            }); 
-            image.save();
-            res.json({
-                code:0,
-                message:"Image save Success"
-            });
+        var image = new Image({
+            path: file.path,
+            relatedFolder: req.body.fid 
+        }); 
+        image.save();
+        folder.imageList.push(image._id);
+        console.log(folder);
+        folder.save();
+        res.json({
+            code:0,
+            message:"Image save Success"
         });
 
     });
