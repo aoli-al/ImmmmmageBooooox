@@ -104,7 +104,7 @@ exports.login = function (req, res) {
 }
 
 exports.changePassword = function (req, res){
-    if(typeof user.password !== 'string'){ // Change password error
+    if(typeof req.body.password !== 'string'){ // Change password error
         return res.json({
             code: 1,
             message: "密码为空"
