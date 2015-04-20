@@ -4,9 +4,7 @@ var pic_num=0;
 function add_pic_to_show(pic_id){
 	var url='/images/get_image/'+pic_id;
 	$("#picSlide").append("<div class='item active' pic_id='"+pic_id+"'><img src='"+url+"'/></div>");
-	$('#picture-area-all').append('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3"><a href="#" class="thumbnail" pic_id="'+pic_id+'"><img src="'+url+'" class="pic" alt="缩略图"></a></div>');
-	pic_num+=1;
-	
+	$('#picture-area-all').append('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3"><a href="#" class="thumbnail" pic_id="'+pic_id+'"><img src="'+url+'" class="pic" alt="缩略图"></a></div>');	
 }
 
 function refresh_pic_content(target_fldr_id){
