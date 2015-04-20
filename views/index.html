@@ -1,0 +1,75 @@
+﻿
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<title>图片浏览器</title>
+
+		<!-- Bootstrap core CSS -->
+		<link href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+		
+
+		<!-- Custom styles for this template -->
+		<link href="/statics/login-page.css" rel="stylesheet">
+
+		<!-- Bootstrap core JavaScript
+		================================================== -->
+		<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+		
+		<script src="/statics/login.js"></script>
+	</head>
+	
+	<script>
+		
+	</script>
+
+	<body>
+
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+		  <div class="container-fluid">
+			<div class="navbar-header"> 
+			  <a class="navbar-brand" href="javascript:void(0)">广告位招租</a>
+			</div>
+		  </div>
+		</nav>
+
+		<div class="container-fluid">
+	
+			<div id="login-form" role="main" hidden="hidden" class="form"> 
+				<form class="input-group input-group-lg" onsubmit="return login_post();">
+					<h2 class="form-heading">Sign in</h2>
+					<input id="user_name" type="text" class="form-control" placeholder="User name" required autofocus>
+					<input id="password" type="password" class="form-control" placeholder="Password" required>
+					
+					<input id="captcha" type="text" class="form-control" placeholder="Captcha" required></input>
+					<img id="captcha-img" src="/captcha.jpg"/>
+					<div id="login-result"></div>
+					<button id="sign-in-btn" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+				</form>
+			</div>
+			
+			<div id="setting-form" role="main" hidden="hidden" class="form" > 
+				<form class="input-group input-group-lg" onsubmit="return setting_post();">
+					<h2 class="form-heading">Setting</h2>
+					<p>Please setup your administrator account</p>
+					
+					<input id="admin-name" type="text" class="form-control" placeholder="Administrator name" required autofocus>
+					<input id="admin-password" type="password" class="form-control" placeholder="Administrator password" required>
+					<input id="admin-password-verify" type="password" class="form-control" placeholder="Administrator password verify" required>
+					<input id="admin_captcha" type="text" class="form-control" placeholder="Captcha" required></input>
+					<img id="admin-captcha-img" src="/captcha.jpg"/>
+					<div id="admin-result"></div>
+					<button id="sign-in-btn" class="btn btn-lg btn-primary btn-block" type="submit">confirm</button>
+
+				</form>
+			</div>
+		
+		</div>
+	</body>
+</html>

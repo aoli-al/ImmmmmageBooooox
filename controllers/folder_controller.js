@@ -135,7 +135,10 @@ exports.createFolder = function (req, res) {
         newFolder.save();
         res.json({
             code: 0,
-            message: "Create folder success"
+            message: "Create folder success",
+            data: {
+                fid: newFolder._id
+            }
         });
     }
     else {
