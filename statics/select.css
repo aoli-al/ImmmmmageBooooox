@@ -1,0 +1,36 @@
+.thumbnail.selected {
+    box-shadow: 0 0 0 4px #00c09e;
+}
+
+.thumbnail:before {
+    content: "\2714";
+    display: block;
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    bottom: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    background: #00c09e;
+    border-radius: 50px;
+    color: #fff;
+    text-align: center;
+    font-size: 16px;
+    z-index: 10;
+    opacity: 0;
+    transition: 0.3s linear;
+    -o-transition: 0.3s linear;
+    -ms-transition: 0.3s linear;
+    -moz-transition: 0.3s linear;
+    -webkit-transition: 0.3s linear;
+    -o-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+}
+
+.thumbnail.selected:before {
+    opacity: 1;
+}

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>main page</title>
+	<!-- Bootstrap core CSS -->
+	<link href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+	<!-- jstree css -->
+	<link rel="stylesheet" href="/statics/dist/themes/default/style.min.css" />
+	<!-- Custom styles for this template -->
+	<link href="/statics/main-page.css" rel="stylesheet">
+	<link href="/statics/pic.css" rel="stylesheet">
+	<link href="/statics/select.css" rel="stylesheet">
+	<link href="/statics/style.css" rel="stylesheet">
+
+	<!-- Bootstrap core JavaScript
+		================================================== -->
+	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+	<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bo
+    otstrap.min.js"></script>
+	<!-- jstree -->
+	<script src="/statics/dist/jstree.min.js"></script>
+    <!-- upload -->
+    <script src="/statics/ajaxupload.js"></script>
+    <script src="/statics/upimages.js"></script>
+ 
+</head>
+<script src="/statics/init_data.js"></script>
+<script src="/statics/jstree_config.js"></script>
+<script src="/statics/pic.js"></script>
+<script src="/statics/select.js"></script>
+<script src="/statics/init.js"></script>
+<script src="/statics/dynamicAdd.js"></script>
+<script src="/statics/design.js"></script>
+<script src="/statics/user.js"></script>
+<script src="/statics/ch.js"></script>
+
+
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top ">
+		<div class="navbar-header">
+			<a class="navbar-brand " href="">广告位招租</a>
+		</div>
+
+<div id="imglist"></div>
+		<div class="container" id="nav-bar">
+			<div class="nav navbar-right navbar-nav">
+				<li>
+					<a href="" id="latest">
+						<span class="glyphicon glyphicon-time user-name" aria-hidden="true"></span> Latest
+					</a>
+				</li>
+				<li class="dropdown">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown">
+						<span class="glyphicon glyphicon-user user-name" aria-hidden="true"></span>
+						<span class="user-name">User</span>
+					</a>
+					<ul class="dropdown-menu">
+                        <li id="config-button"><a  href=""  data-toggle="modal" data-target="#myModal9" >Configuration</a></li>
+						<li id="new-user-button" hidden><a  href=""  data-toggle="modal" data-target="#myModal" >New User</a></li>
+						<li id="management_button" hidden><a href="" data-toggle="modal" data-target="#myModal3">Management</a></li>
+						<li><a href="" onclick="logout()">Logout</a></li>
+					</ul>
+				</li>
+			</div>
+		</div>
+	</nav>
+	<div class="container-fluid">
+		<div class="container panel panel-default" id="side-bar" role="complementary">
+			<div href="">
+				<h3><span class="glyphicon glyphicon-home" aria-hidden="true" ><span id="home">Home</span></span></h3>
+			</div>
+			<hr/>
+            <div id="folder-area">
+                <div id="jstree"></div>
+            </div>
+			
+		</div>
+		<div class="container-fluid panel panel-default " id="main-content" role="main">
+			<div class="container" id="main-nav">
+				<div class="btn-group hidden-xs " role="group" id="select-btns">
+					<button type="button" class="btn btn-default" id="select-all-btn" disabled="true">
+						Select all
+					</button>
+					<button type="button" class="btn btn-default" id="select-inverse-btn" disabled="true">
+						Inverse
+					</button>
+				</div>
+				<div class="container-fluid hidden-xs hidden-sm hidden-md " id="bread">
+					<ol class="breadcrumb">
+						<li>Latest</li>
+					</ol>
+				</div>
+				<div class="btn-group" role="group" id="operate-btns">
+					<button type="button" class="btn btn-default" id="delete-btn">
+						<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>Delete
+					</button>
+					<button type="button" class="btn btn-default" id="upload-btn">
+						<span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>Upload
+					</button>
+					<button type="button" class="btn btn-default" id="download-btn">
+						<span class="glyphicon glyphicon-cloud-download" aria-hidden="true" id="download-btn"></span>Download
+					</button>
+					<button type="button" class="btn btn-default" id="move-btn">
+						<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>Move
+					</button>
+				</div>
+			</div>
+			<div class="container-fluid" id="picture-area-all">
+			</div>
+		</div>
+	</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog ver">
+        <div class="modal-content btn-group-vertical" id="mySubModal" style="height:480px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">登记账号</h4>
+            </div>
+            <div class="form-signin">
+                <label style="font-size: 15px">输入您想开放的用户名</label>
+                <input type="text" id="username" style="margin-top: 0px" class="form-control form-signin-heading" placeholder="Username">
+                <label style="font-size: 15px">输入设定密码</label>
+                <input type="password" id="password" style="margin-top: 0px" class="form-control form-signin-heading" placeholder="Password">
+                <label style="font-size: 15px">再次输入密码</label>
+                <input type="password" id="password_verify" style="margin-top: 0px" class="form-control form-signin-heading" placeholder="Password">
+                 <label style="font-size: 15px">请输入验证码</label>
+                <br>
+                <input type="text" id="captcha" style="margin-top: 0px;width:180px"  class="form-control-static  " placeholder="VerifyCode">
+                <img src="http://127.0.0.1:8000/captcha.jpg" style="width: 100px; height:40px;margin-left: 10px">
+            </div>
+            <div class="modal-footer" style="margin-top: 12px">
+                <div id='register-message'></div>
+                <button type="button" class="btn btn-default" data-dismiss="modal"
+                onclick="registerInit()">取消</button>
+                <button type="button" class="btn btn-primary"  onclick="register()">确认开户</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog ver">
+        <div class="modal-content btn-group-vertical " id="mySubModal3">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel3">更改账号权限</h4>
+                </div>
+                <div class="form-signin">
+                    <label style="font-size: 20px">选择账号进行权限修改</label>
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <!-- Split button -->
+                            <div class="btn-group" style="margin-top: 15px ">
+                                <input type="text" id="currentState" class="btn btn-default" style="width: 195px;" value="选择要修改权限的账号">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" id="ch_pickUser">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="margin-top: 25px">
+                            <label style="font-size: 20px" ;>选择该账户可见的相册</label>
+                            <div id="jstree_select_authority"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">确认修改</button>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<!-- Modal -->
+<div class="modal fade" id="myModal7" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog ver">
+        <div class="modal-content btn-group-vertical " id="mySubModal7">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel7">移动图片</h4>
+            </div>
+            <div class="form-signin">
+                <div class="row">
+                    <div class="col-md-12" style="margin-top: 5px">
+                        <label style="font-size: 20px" ;>选择移动选中图片的目标目录</label>
+                        <div id="jstree_select_move"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="margin-top: 40px">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="move_fldr()">确认修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal8" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog ver" style="width:360px;margin-top: 200px">
+        <div class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only"></span>
+            <a style="color: #8b0000 ;font-size: 20px ">警告</a>
+            <label style="font-size: 20px">您的操作将不可撤销，请确认操作！</label>
+            <div class="modal-footer" style="margin-bottom: -20px">
+                <button type="button" class="btn btn-success" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="myModal6" tabindex="-1"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <span class="glyphicon glyphicon-remove-sign pull-right" ></span>
+        <div class="modal-dialog" style="width: 750px ;margin:auto;margin-top: 10%">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" >
+           
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox" align="middle" id="picSlide">
+                </div>
+
+
+                <!-- Controls -->
+                <a class="left carousel-control"   href="#carousel-example-generic" role="button" data-slide="prev" onmousemove="out1()" onmouseout="over1()">
+                    <span class="glyphicon glyphicon-chevron-left" style="visibility: hidden "  id="toLeft" aria-hidden="true"   ></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control"   href="#carousel-example-generic" role="button" data-slide="next" onmousemove="out2()" onmouseout="over2()">
+                    <span class="glyphicon glyphicon-chevron-right" style="visibility: hidden" id="toRight" aria-hidden="true"  ></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog ver">
+            <div class="modal-content btn-group-vertical" id="mySubModal9" style="height:340px">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel9">修改密码</h4>
+                </div>
+                <div class="form-signin">
+                    <label style="font-size: 15px">输入新修改的密码</label>
+                    <input type="text" id="changePassword" style="margin-top: 0px" class="form-control form-signin-heading" placeholder="Password">
+                    <label style="font-size: 15px">再次输入新密码</label>
+                    <input type="text" id="changePassword2" style="margin-top: 0px" class="form-control form-signin-heading" placeholder="Password">
+
+                    <br>
+
+                </div>
+                <div class="modal-footer" style="margin-top: 12px">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="change_password()">确认修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+</body>
+
+</html>

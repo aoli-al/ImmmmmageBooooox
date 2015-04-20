@@ -1,0 +1,26 @@
+#picture-area-all{
+	position:absolute;
+	top:70px;
+	bottom:10px;
+	left:10px;
+	right:10px;
+	overflow:auto;
+	padding-top:10px;
+	background-color:white;
+}
+
+.thumbnail{
+	float:left;
+	width:200px;
+	height:200px;
+	background-color:lightgray;
+}
+
+.picture-area{
+	margin:0 -10px -30px -10px;	
+}
+
+.pic{
+	max-width:190px;
+	max-height:190px;
+}

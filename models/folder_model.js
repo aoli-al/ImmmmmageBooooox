@@ -19,7 +19,9 @@ var folderSchema = new mongoose.Schema({
 folderSchema.pre('remove', function(next){
     var Image = mongoose.model('UserModel');
     var Folder = mongoose.model('FolderModel');
-    console.log('deleting');
+    console.log(this._id);
+    Image.findOne({
+    });
     Image.remove({relatedFolder: this._id}).exec();
     Folder.remove({parentFolder: this._id}).exec();
     next();
