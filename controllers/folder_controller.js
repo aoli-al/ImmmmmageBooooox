@@ -65,7 +65,7 @@ exports.deleteFolder = function (req, res) {
             message: "String Error, Empty input or something"
         });
     }
-    Folder.remove( {_id: req.body.fid}, function (err) {
+    Folder.findById(req.body.fid, function(err, folder){
         if (err) {
             console.log(err);
             return res.json({
@@ -73,11 +73,20 @@ exports.deleteFolder = function (req, res) {
                 message: "未知错误"
             });
         }
-        return res.json({
-            code: 0,
-            message: 'success'
-        });
-    }); 
+        if (folder) {
+            folder.remove();
+            return res.json({
+                code: 0,
+                message: 'success'
+            });
+        }
+        else {
+            return res.json({
+                code: 5,
+                message: '木有文件夹'
+            });
+        }
+    });
 }
 
 exports.modifyFolderName = function (req, res) {

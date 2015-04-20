@@ -52,13 +52,16 @@ exports.uploadImage = function (req, res) {
             code: 1,
         });
     }
+    console.log(req.body.fid);
     Folder.findOne( {_id: req.body.fid }, function(err, folder) {
         if (err) {
+            console.log(err);
             return res.json({
-                code: 2
+                code: 100
             });
         }
         if (!folder) {
+            console.log("图片不存在");
             return res.json({
                 code: 2
             });
@@ -71,6 +74,7 @@ exports.uploadImage = function (req, res) {
         }); 
         image.save();
         folder.imageList.push(image._id);
+        console.log(folder);
         folder.save();
         res.json({
             code:0,

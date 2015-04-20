@@ -18,8 +18,10 @@ var folderSchema = new mongoose.Schema({
 
 folderSchema.pre('remove', function(next){
     var Image = mongoose.model('UserModel');
-    Image.remove({relatedFolder: this.id}).exec();
-    this.remove({parentFolder: this.id}).exec();
+    var Folder = mongoose.model('FolderModel');
+    console.log('deleting');
+    Image.remove({relatedFolder: this._id}).exec();
+    Folder.remove({parentFolder: this._id}).exec();
     next();
 });
 
