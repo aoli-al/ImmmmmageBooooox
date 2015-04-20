@@ -52,6 +52,7 @@ exports.uploadImage = function (req, res) {
             code: 1,
         });
     }
+    console.log("开始上传啦");
     console.log(req.body.fid);
     Folder.findOne( {_id: req.body.fid }, function(err, folder) {
         if (err) {
