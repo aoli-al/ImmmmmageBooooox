@@ -1,6 +1,6 @@
 function register()
     {
-        $.post("http://127.0.0.1:8000/users/register/",
+        $.post("/users/register/",
             {
                 "email":		    $("#username").val(),
                 "password":			$("#password").val(),

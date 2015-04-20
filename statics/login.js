@@ -1,6 +1,6 @@
 
 function login_post(){
-	$.post('http://127.0.0.1:8000/users/login/', {
+	$.post('/users/login/', {
 		"email" : $("#user_name").val(),
 		"password": $("#password").val(),
 		"captcha" : $("#captcha").val()
@@ -16,7 +16,7 @@ function login_post(){
 
 function setting_post(){
 	//use post_register for regi super_user
-	$.post('http://127.0.0.1:8000/users/register/', {
+	$.post('/users/register/', {
 		"email" : $('#admin-name').val(),
 		"password" : $('#admin-password').val(),
 		"passwordVerify" : $('#admin-password-verify').val(),
@@ -32,7 +32,7 @@ function setting_post(){
 }
 
 $(document).ready(function(){
-	$.post('http://127.0.0.1:8000/users/login/', {
+	$.post('/users/login/', {
 		"email" : "",
 		"password":"",
 		"captcha" : ""

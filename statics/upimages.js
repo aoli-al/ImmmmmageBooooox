@@ -3,7 +3,7 @@ $(document).ready(function(){
     var fileType = "pic",fileNum = "more"; 
 
     new AjaxUpload(button,{
-        action: 'http://127.0.0.1:8000/images/upload_image/',
+        action: '/images/upload_image/',
         /*data:{
             'buttoninfo':button.text()
         },*/

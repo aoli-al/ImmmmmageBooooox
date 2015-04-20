@@ -2,7 +2,7 @@ var pic_in_fldr=[];
 
 var pic_num=0;
 function add_pic_to_show(pic_id){
-		var url='http://127.0.0.1:8000/images/get_image/'+pic_id;
+		var url='/images/get_image/'+pic_id;
 		$("#picSlide").append("<div class='item' pic_id='"+pic_id+"'><img src='"+url+"'/></div>");
 		$('#picture-area-all').append('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3"><a href="#" class="thumbnail" pic_id="'+pic_id+'"><img src="'+url+'" class="pic" alt="缩略图"></a></div>');
 		pic_num+=1;
@@ -15,7 +15,7 @@ function refresh_pic_content(target_fldr_id){
 	pic_in_fldr=[];
 	pic_num=0;
 	//get image id using target_fldr_id
-	$.get('http://127.0.0.1:8000/folders/image_list/'+target_fldr_id, function(data) {
+	$.get('/folders/image_list/'+target_fldr_id, function(data) {
 		pic_in_fldr=data.data.imageList;
 		while (pic_num<pic_in_fldr.length&&pic_num<50){
 			add_pic_to_show(pic_in_fldr[pic_num]);

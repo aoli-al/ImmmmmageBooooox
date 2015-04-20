@@ -4,7 +4,7 @@ function move_fldr(){
 }
 
 function logout(){
-	$.get('http://127.0.0.1:8000/users/logout',function(res){
+	$.get('/users/logout',function(res){
 		if(res.code == 0)location.href = "index.html";
 	})
 }

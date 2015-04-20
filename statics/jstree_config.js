@@ -56,6 +56,7 @@ function build_trees () {
 	//config the main jstreer
 	$('#jstree')
 	.on('select_node.jstree',function(e,data){
+		$('.thumbnail').removeClass('selected');
 		show_select_btns();
 		var i,j,r="";
 		j=data.instance.get_path(data.selected[0],false,true);
@@ -79,7 +80,7 @@ function build_trees () {
 		$.each(tree_structure, function(key, val){
 			if(val.id==data.node.id){
 				tree_structure[key].text=data.text;
-				$.post("http://127.0.0.1:8000/folders/change_name/",
+				$.post("/folders/change_name/",
 				{
 					'fid'	: val.id,
 					'name'	: data.text
@@ -105,7 +106,7 @@ function build_trees () {
 		refresh_trees();
 	})
 	.on('create_node.jstree',function(e,data){
-		$.post('http://127.0.0.1:8000/folders/create', 
+		$.post('/folders/create', 
 		{
 			"name"	: "New Node",
 			"parentFolderId" : data.parent
@@ -122,7 +123,7 @@ function build_trees () {
 		$.each(tree_structure,function(key,val){
 			if (val.id==data.node.id){
 				to_be_delete=key;
-				$.post("http://127.0.0.1:8000/folders/delete",
+				$.post("/folders/delete",
 					{
 						"fid" : val.id 
 					},
@@ -133,7 +134,7 @@ function build_trees () {
 		});
 		tree_structure.splice(to_be_delete, 1);
 		if (tree_structure.length==0){
-			$.post('http://127.0.0.1:8000/folders/create', 
+			$.post('/folders/create', 
 			{
 				"name"	: "New Node",
 				"parentFolderId" : '#'
