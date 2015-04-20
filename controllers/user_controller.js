@@ -153,6 +153,12 @@ exports.isSuperUser = function (req, res){
                 });
             }
         }
+        else {
+            return res.json({
+                code: 10,
+                message: "不存在该用户"
+            });
+        }
     });
 }
 
